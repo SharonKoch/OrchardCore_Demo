@@ -116,28 +116,14 @@
  
                  _timestamps.TryRemove(indexName, out _);
  
-@@ -116,1 +116,1 @@
--                var indexFolder = PathExtensions.Combine(_rootPath, indexName);
-+                  var indexFolder = PathExtensions.Combine(_rootPath, indexName);
+                 var indexFolder = PathExtensions.Combine(_rootPath, indexName);
  
-@@ -118,6 +118,11 @@
--                if (Directory.Exists(indexFolder))
--                {
--                    try
--                    {
--                        Directory.Delete(indexFolder, true);
--                    }
-+                  // TODO: Validate that indexFolder is within expected directory
-+
-+                  if (Directory.Exists(indexFolder))
-+                  {
-+                      try
-+                      {
-+                          Directory.Delete(indexFolder, true);
-+                      }
-+                      catch { }
-+                  }
-+
+                 if (Directory.Exists(indexFolder))
+                 {
+                     try
+                     {
+                         Directory.Delete(indexFolder, true);
+                     }
                      catch { }
                  }
  
@@ -383,8 +369,19 @@
          {
              lock (this)
              {
-                 var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
+@@ -369,1 +369,1 @@
+-                var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
++              var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
  
+@@ -371,0 +371,8 @@
++              // TODO: Validate that path is within expected directory
++
++              if (!path.Exists)
++              {
++                  path.Create();
++              }
++
++
                  if (!path.Exists)
                  {
                      path.Create();
