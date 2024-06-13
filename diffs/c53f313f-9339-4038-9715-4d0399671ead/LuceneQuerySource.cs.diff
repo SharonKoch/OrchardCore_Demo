@@ -1,6 +1,7 @@
 --- original
 +++ remediated
-@@ -0,0 +0,0 @@
+@@ -1,0 +1,1 @@
++using System.IO;
  using System.Collections.Generic;
  using System.Linq;
  using System.Text.Encodings.Web;
@@ -13,8 +14,21 @@
  using OrchardCore.ContentManagement.Records;
  using OrchardCore.Liquid;
  using OrchardCore.Queries;
- using OrchardCore.Search.Lucene.Model;
- using OrchardCore.Search.Lucene.Services;
+@@ -13,2 +14,12 @@
+-using OrchardCore.Search.Lucene.Model;
+-using OrchardCore.Search.Lucene.Services;
++              var sourcePath = request.SourcePath;
++              var destinationPath = request.DestinationPath;
++                    var normalizedSourcePath = Path.GetFullPath(sourcePath);
++                    var normalizedDestinationPath = Path.GetFullPath(destinationPath);
++
++                    // TODO: Validate that normalizedSourcePath and normalizedDestinationPath are within expected directories
++
++                    if (!normalizedSourcePath.StartsWith(Directory.GetCurrentDirectory()) || !normalizedDestinationPath.StartsWith(Directory.GetCurrentDirectory()))
++                    {
++                        return BadRequest("Invalid file path.");
++                    }
++
  using YesSql;
  using YesSql.Services;
  
