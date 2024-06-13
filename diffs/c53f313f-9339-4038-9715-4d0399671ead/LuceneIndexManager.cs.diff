@@ -131,7 +131,13 @@
              }
          }
  
-         public bool Exists(string indexName)
+@@ -131,1 +131,5 @@
+-        public bool Exists(string indexName)
++              if (!Directory.Exists(indexFolder))
++              {
++                  return false;
++              }
++
          {
              if (string.IsNullOrWhiteSpace(indexName))
              {
