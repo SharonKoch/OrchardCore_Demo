@@ -118,15 +118,34 @@
  
                  var indexFolder = PathExtensions.Combine(_rootPath, indexName);
  
-                 if (Directory.Exists(indexFolder))
-                 {
-                     try
-                     {
-                         Directory.Delete(indexFolder, true);
-                     }
-                     catch { }
-                 }
+@@ -118,8 +118,1 @@
+-                if (Directory.Exists(indexFolder))
+-                {
+-                    try
+-                    {
+-                        Directory.Delete(indexFolder, true);
+-                    }
+-                    catch { }
+-                }
++              var indexFolder = PathExtensions.Combine(_rootPath, indexName);
  
+@@ -127,0 +120,16 @@
++              // TODO: Validate that indexFolder is within expected directory
++
++              if (!indexFolder.StartsWith(_rootPath))
++              {
++                  return;
++              }
++
++              if (Directory.Exists(indexFolder))
++              {
++                  try
++                  {
++                      Directory.Delete(indexFolder, true);
++                  }
++                  catch { }
++              }
++
                  _writers.TryRemove(indexName, out _);
              }
          }
@@ -369,22 +388,8 @@
          {
              lock (this)
              {
-@@ -369,1 +369,1 @@
--                var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
-+                  var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
+                 var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
  
-@@ -371,0 +371,11 @@
-+                  if (!path.FullName.StartsWith(_rootPath))
-+                  {
-+                      throw new ArgumentException("Invalid index name.");
-+                  }
-+
-+                  if (!path.Exists)
-+                  {
-+                      path.Create();
-+                  }
-+
-+
                  if (!path.Exists)
                  {
                      path.Create();
