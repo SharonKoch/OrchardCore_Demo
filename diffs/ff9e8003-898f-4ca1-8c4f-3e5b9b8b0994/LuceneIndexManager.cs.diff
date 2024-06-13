@@ -122,21 +122,7 @@
                  {
                      try
                      {
-@@ -122,1 +122,13 @@
--                        Directory.Delete(indexFolder, true);
-+                  var indexFolder = PathExtensions.Combine(_rootPath, indexName);
-+
-+                  // TODO: Validate that indexFolder is within expected directory
-+
-+                  if (Directory.Exists(indexFolder))
-+                  {
-+                      try
-+                      {
-+                          Directory.Delete(indexFolder, true);
-+                      }
-+                      catch { }
-+                  }
-+
+                         Directory.Delete(indexFolder, true);
                      }
                      catch { }
                  }
@@ -383,8 +369,22 @@
          {
              lock (this)
              {
-                 var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
+@@ -369,1 +369,1 @@
+-                var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
++                  var path = new DirectoryInfo(PathExtensions.Combine(_rootPath, indexName));
  
+@@ -371,0 +371,11 @@
++                  if (!path.FullName.StartsWith(_rootPath))
++                  {
++                      throw new ArgumentException("Invalid index name.");
++                  }
++
++                  if (!path.Exists)
++                  {
++                      path.Create();
++                  }
++
++
                  if (!path.Exists)
                  {
                      path.Create();
